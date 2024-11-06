@@ -6,16 +6,42 @@ import os
 # 禁用 SSL 憑證驗證
 ssl._create_default_https_context = ssl._create_unverified_context
 
-def load_mnist():
-    try:
-        # 使用 TensorFlow 直接載入 MNIST 資料集
-        (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
+def download_mnist(path='./dataset'):
+    # 使用 TensorFlow 直接載入 MNIST 資料集
+    (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
 
-        # 轉換為 NumPy 數組並進行標準化
-        train_images = np.array(train_images, dtype=np.float32) / 255.0
-        train_labels = np.array(train_labels, dtype=np.int32)
-        test_images = np.array(test_images, dtype=np.float32) / 255.0
-        test_labels = np.array(test_labels, dtype=np.int32)
+    # 保存原始數據
+    if not os.path.exists(path):
+        os.makedirs(path)
+    
+    np.save(os.path.join(path, 'train_images_raw.npy'), train_images)
+    np.save(os.path.join(path, 'train_labels_raw.npy'), train_labels)
+    np.save(os.path.join(path, 'test_images_raw.npy'), test_images)
+    np.save(os.path.join(path, 'test_labels_raw.npy'), test_labels)
+    print(f"Raw MNIST data downloaded and saved in {path}")
+
+def load_mnist(normalize=True, flatten=False, one_hot_label=False, path='./dataset'):
+    try:
+        # 使用 NumPy 載入保存的原始數據
+        train_images = np.load(os.path.join(path, 'train_images_raw.npy'))
+        train_labels = np.load(os.path.join(path, 'train_labels_raw.npy'))
+        test_images = np.load(os.path.join(path, 'test_images_raw.npy'))
+        test_labels = np.load(os.path.join(path, 'test_labels_raw.npy'))
+
+        # 標準化
+        if normalize:
+            train_images = train_images.astype(np.float32) / 255.0
+            test_images = test_images.astype(np.float32) / 255.0
+
+        # 展平
+        if flatten:
+            train_images = train_images.reshape(train_images.shape[0], -1)
+            test_images = test_images.reshape(test_images.shape[0], -1)
+
+        # One-hot 編碼
+        if one_hot_label:
+            train_labels = tf.keras.utils.to_categorical(train_labels, 10)
+            test_labels = tf.keras.utils.to_categorical(test_labels, 10)
 
         return (train_images, train_labels), (test_images, test_labels)
     except Exception as e:
@@ -49,7 +75,8 @@ def load_saved_mnist(path='./dataset'):
 if __name__ == "__main__":
     data = load_saved_mnist()
     if data is None:
-        data = load_mnist()
+        download_mnist()
+        data = load_mnist(normalize=True, flatten=False, one_hot_label=False)
         if data:
             (train_images, train_labels), (test_images, test_labels) = data
             print(f"Training images shape: {train_images.shape}")
