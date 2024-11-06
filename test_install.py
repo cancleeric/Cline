@@ -1,3 +1,4 @@
+import unittest
 import tensorflow as tf
 import numpy as np
 import pandas as pd
@@ -31,19 +32,21 @@ class Perceptron:
                 self.W[1:] += update * xi
                 self.W[0] += update
 
-def main():
-    print_versions()
+class TestInstall(unittest.TestCase):
+    def test_print_versions(self):
+        print_versions()
 
-    # Example dataset: OR logic gate
-    X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-    d = np.array([0, 1, 1, 1])
+    def test_perceptron(self):
+        # Example dataset: OR logic gate
+        X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+        d = np.array([0, 1, 1, 1])
 
-    perceptron = Perceptron(input_size=2)
-    perceptron.fit(X, d)
+        perceptron = Perceptron(input_size=2)
+        perceptron.fit(X, d)
 
-    # Test the perceptron
-    for x in X:
-        print(f"Input: {x}, Predicted Output: {perceptron.predict(x)}")
+        # Test the perceptron
+        for x in X:
+            self.assertEqual(perceptron.predict(x), 1 if (x[0] or x[1]) else 0)
 
 if __name__ == "__main__":
-    main()
+    unittest.main()
