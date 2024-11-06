@@ -1,15 +1,7 @@
 import numpy as np
 import pickle
 from mnist_loader import load_mnist
-
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
-
-def softmax(x):
-    c = np.max(x)
-    exp_x = np.exp(x - c)
-    sum_exp_x = np.sum(exp_x)
-    return exp_x / sum_exp_x
+from logic_functions import sigmoid_function as sigmoid, softmax_function as softmax
 
 def get_data():
     (train_images, train_labels), (test_images, test_labels) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
@@ -36,11 +28,13 @@ if __name__ == "__main__":
     test_images, test_labels = get_data()
     network = init_network()
 
+    batch_size = 100  # 批次大小
     accuracy_cnt = 0
-    for i in range(len(test_images)):
-        y = predict(network, test_images[i])
-        p = np.argmax(y)  # 獲取概率最高的元素的索引
-        if p == test_labels[i]:
-            accuracy_cnt += 1
+
+    for i in range(0, len(test_images), batch_size):
+        x_batch = test_images[i:i+batch_size]
+        y_batch = predict(network, x_batch)
+        p = np.argmax(y_batch, axis=1)  # 獲取概率最高的元素的索引
+        accuracy_cnt += np.sum(p == test_labels[i:i+batch_size])
 
     print(f"Accuracy: {accuracy_cnt / len(test_images)}")
