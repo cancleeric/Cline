@@ -138,3 +138,8 @@ training/
 
 # Dataset files
 dataset/
+
+# 忽略測試產生的資料
+/test_dataset/
+/__pycache__/
+/*.pyc
