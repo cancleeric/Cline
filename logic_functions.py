@@ -73,3 +73,24 @@ def numerical_derivative(f, x, h=1e-5):
     :return: f 在 x 點的數值微分
     """
     return (f(x + h) - f(x - h)) / (2 * h)
+
+def gradient_function(f, x, h=1e-5):
+    """
+    計算函數 f 在 x 點的梯度
+    :param f: 函數
+    :param x: 自變量 (numpy array)
+    :param h: 微小變量
+    :return: f 在 x 點的梯度 (numpy array)
+    """
+    grad = np.zeros_like(x)
+    for idx in range(x.size):
+        temp_val = x[idx]
+        x[idx] = temp_val + h
+        fxh1 = f(x)  # f(x + h)
+        
+        x[idx] = temp_val - h
+        fxh2 = f(x)  # f(x - h)
+        
+        grad[idx] = (fxh1 - fxh2) / (2 * h)
+        x[idx] = temp_val  # 還原值
+    return grad

@@ -5,7 +5,7 @@ sys.path.append('/Users/apple/Desktop/Cline')
 from logic_functions import (
     step_function, sigmoid_function, relu_function, weighted_sum,
     identity_function, softmax_function, mean_squared_error, cross_entropy_error,
-    numerical_derivative
+    numerical_derivative, gradient_function
 )
 
 class TestLogicFunctions(unittest.TestCase):
@@ -53,6 +53,12 @@ class TestLogicFunctions(unittest.TestCase):
         x = 3.0
         expected = 6.0  # f'(x) = 2x, so f'(3) = 6
         self.assertAlmostEqual(numerical_derivative(f, x), expected, places=5)
+
+    def test_gradient_function(self):
+        f = lambda x: x[0]**2 + x[1]**2
+        x = np.array([3.0, 4.0])
+        expected = np.array([6.0, 8.0])  # f'(x) = [2*x1, 2*x2], so f'([3, 4]) = [6, 8]
+        np.testing.assert_array_almost_equal(gradient_function(f, x), expected, decimal=5)
 
 if __name__ == "__main__":
     unittest.main()
