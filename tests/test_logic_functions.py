@@ -11,7 +11,7 @@ sys.path.append(parent_dir)
 from logic_functions import (
     step_function, sigmoid_function, relu_function, weighted_sum,
     identity_function, softmax_function, mean_squared_error, cross_entropy_error,
-    numerical_derivative, gradient_function
+    numerical_derivative, gradient_function, gradient_descent
 )
 
 class TestLogicFunctions(unittest.TestCase):
@@ -65,6 +65,16 @@ class TestLogicFunctions(unittest.TestCase):
         x = np.array([3.0, 4.0])
         expected = np.array([6.0, 8.0])  # f'(x) = [2*x1, 2*x2], so f'([3, 4]) = [6, 8]
         np.testing.assert_array_almost_equal(gradient_function(f, x), expected, decimal=5)
+
+    def test_gradient_descent(self):
+        f = lambda x: x[0]**2 + x[1]**2  # 目標函數
+        init_x = np.array([3.0, 4.0])  # 初始點
+        learning_rate = 0.1
+        num_iterations = 100
+        expected_x = np.array([0.0, 0.0])  # 最小值點
+        x, _ = gradient_descent(f, init_x, learning_rate, num_iterations)
+        np.testing.assert_array_almost_equal(x, expected_x, decimal=5)
+
 
 if __name__ == "__main__":
     unittest.main()
