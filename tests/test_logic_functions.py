@@ -1,7 +1,13 @@
 import unittest
 import numpy as np
+import matplotlib.pyplot as plt
 import sys
-sys.path.append('/Users/apple/Desktop/Cline')
+import os
+
+# 獲取當前腳本的絕對路徑，並將上一層資料夾添加到 sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+sys.path.append(parent_dir)
 from logic_functions import (
     step_function, sigmoid_function, relu_function, weighted_sum,
     identity_function, softmax_function, mean_squared_error, cross_entropy_error,

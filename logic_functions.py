@@ -90,3 +90,22 @@ def gradient_function(f, x, h=1e-5):
         grad[i] = (f(x + perturb[i]) - f(x - perturb[i])) / (2 * h)
     
     return grad
+
+def gradient_descent(f, init_x, learning_rate=0.1, num_iterations=100):
+    """
+    使用梯度下降法最小化函數 f
+    :param f: 目標函數
+    :param init_x: 初始點 (numpy array)
+    :param learning_rate: 學習率 (步長)
+    :param num_iterations: 迭代次數
+    :return: 優化後的 x 值和每次迭代的歷史 x 值
+    """
+    x = np.array(init_x, dtype=float)
+    x_history = [x.copy()]  # 保存每次迭代的 x 值
+    
+    for _ in range(num_iterations):
+        grad = gradient_function(f, x)
+        x -= learning_rate * grad  # 更新 x
+        x_history.append(x.copy())  # 保存每次迭代的 x 值
+    
+    return x, x_history
