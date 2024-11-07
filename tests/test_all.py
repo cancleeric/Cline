@@ -1,7 +1,7 @@
 import unittest
 
 # 匯入現有的測試模組
-import test_mnist
+from . import test_mnist
 import test_install
 import test_gates
 
