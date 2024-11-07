@@ -1,28 +1,10 @@
+from mnist_loader import load_mnist
 import tensorflow as tf
-import numpy as np
-import matplotlib.pyplot as plt
-import sklearn
 
-def plot_sine_wave():
-    # Sample data for demonstration
-    x = np.linspace(0, 10, 100)
-    y = np.sin(x)
-
-    # Create the plot
-    plt.plot(x, y)
-    plt.xlabel("X-axis")
-    plt.ylabel("Y-axis")
-    plt.title("Sine Wave")
-    plt.grid(True)
-
-    # Display the plot
-    plt.show()
-
-    # Print versions (for verification)
-    print("TensorFlow:", tf.__version__)
-    print("NumPy:", np.__version__)
-    print("Matplotlib:", plt.__version__)
-    print("Scikit-learn:", sklearn.__version__)
+def train_mnist_model(batch_size=32, epochs=5):
+    # 載入 MNIST 資料集
+    (train_images, train_labels), (test_images, test_labels) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
+    # ...existing code...
 
 if __name__ == "__main__":
-    plot_sine_wave()
+    train_mnist_model()

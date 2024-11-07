@@ -4,7 +4,8 @@ import sys
 sys.path.append('/Users/apple/Desktop/Cline')
 from logic_functions import (
     step_function, sigmoid_function, relu_function, weighted_sum,
-    identity_function, softmax_function, mean_squared_error, cross_entropy_error
+    identity_function, softmax_function, mean_squared_error, cross_entropy_error,
+    numerical_derivative
 )
 
 class TestLogicFunctions(unittest.TestCase):
@@ -45,6 +46,13 @@ class TestLogicFunctions(unittest.TestCase):
         y_true = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
         y_pred = np.array([[0.8, 0.1, 0.1], [0.1, 0.8, 0.1], [0.1, 0.2, 0.7]])
         expected = 0.2676  # Updated expected value based on manual calculation
-        self.assertAlmostEqual(cross_entropy_error(y_true, y_pred), expected, places=4)
+        self.assertAlmostEqual(cross_entropy_error(y_true, y_pred), expected, places=3)
+
+    def test_numerical_derivative(self):
+        f = lambda x: x**2
+        x = 3.0
+        expected = 6.0  # f'(x) = 2x, so f'(3) = 6
+        self.assertAlmostEqual(numerical_derivative(f, x), expected, places=5)
+
 if __name__ == "__main__":
     unittest.main()

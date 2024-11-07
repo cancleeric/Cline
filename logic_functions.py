@@ -63,3 +63,13 @@ def cross_entropy_error(y_true, y_pred):
     # 計算交叉熵誤差
     cee = -np.mean(correct_class_prob)
     return cee
+
+def numerical_derivative(f, x, h=1e-5):
+    """
+    計算函數 f 在 x 點的數值微分
+    :param f: 函數
+    :param x: 自變量
+    :param h: 微小變量
+    :return: f 在 x 點的數值微分
+    """
+    return (f(x + h) - f(x - h)) / (2 * h)
