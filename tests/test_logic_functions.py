@@ -9,7 +9,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 sys.path.append(parent_dir)
 from logic_functions import (
-    step_function, sigmoid_function, relu_function, weighted_sum,
+    step_function, sigmoid, relu_function, weighted_sum,
     identity_function, softmax_function, mean_squared_error, cross_entropy_error,
     numerical_derivative, gradient_function, gradient_descent, sigmoid_derivative
 )
@@ -23,7 +23,7 @@ class TestLogicFunctions(unittest.TestCase):
     def test_sigmoid_function(self):
         x = np.array([0.0])
         expected = np.array([0.5])
-        np.testing.assert_array_almost_equal(sigmoid_function(x), expected)
+        np.testing.assert_array_almost_equal(sigmoid(x), expected)
 
     def test_relu_function(self):
         x = np.array([-1.0, 0.0, 1.0])
@@ -78,7 +78,7 @@ class TestLogicFunctions(unittest.TestCase):
     def test_sigmoid_derivative(self):
         # Test sigmoid derivative at various points
         x_values = np.array([-1000, -10, -1, 0, 1, 10, 1000])
-        expected_derivatives = sigmoid_function(x_values) * (1 - sigmoid_function(x_values))
+        expected_derivatives = sigmoid(x_values) * (1 - sigmoid(x_values))
         
         for x, expected in zip(x_values, expected_derivatives):
             with self.subTest(x=x):

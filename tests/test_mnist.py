@@ -5,7 +5,7 @@ import os
 sys.path.append('/Users/apple/Desktop/Cline')
 from mnist_loader import load_mnist, download_mnist, save_mnist, load_saved_mnist
 from neuralnet_mnist import get_data, init_network, predict
-from logic_functions import sigmoid_function as sigmoid, softmax_function as softmax
+from logic_functions import sigmoid as sigmoid, softmax_function as softmax
 
 class TestMNISTLoader(unittest.TestCase):
     def test_load_mnist(self):

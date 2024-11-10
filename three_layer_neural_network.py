@@ -1,5 +1,5 @@
 import numpy as np
-from logic_functions import weighted_sum, sigmoid_function as sigmoid, identity_function
+from logic_functions import weighted_sum, sigmoid as sigmoid, identity_function
 
 def init_network():
     np.random.seed(42)

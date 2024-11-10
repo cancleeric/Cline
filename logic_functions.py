@@ -4,13 +4,13 @@ def step_function(x):
     # 步階函數：輸入大於 0 時返回 1，否則返回 0
     return (x > 0).astype(int)
 
-def sigmoid_function(x):
+def sigmoid(x):
     # Sigmoid 函數：將輸入壓縮到 (0, 1) 範圍內
     return 1 / (1 + np.exp(-x))
 
 def sigmoid_derivative(x):
     # Sigmoid 函數的導數
-    return sigmoid_function(x) * (1 - sigmoid_function(x))
+    return sigmoid(x) * (1 - sigmoid(x))
 
 def relu_function(x):
     # ReLU 函數：輸入大於 0 時返回輸入值，否則返回 0
@@ -113,3 +113,41 @@ def gradient_descent(f, init_x, learning_rate=0.1, num_iterations=100):
         x_history.append(x.copy())  # 保存每次迭代的 x 值
     
     return x, x_history
+
+
+def numerical_gradient(f, x):
+    """
+    計算函數 f 在點 x 的數值梯度。
+
+    參數:
+    f -- 需要計算梯度的函數，輸入為 x，輸出為標量。
+    x -- 自變量，作為計算梯度的點 (numpy array)。
+
+    返回:
+    grad -- 與 x 形狀相同的梯度 (numpy array)，包含 f 在每個元素上的偏導數。
+    """
+    h = 1e-4  # 0.0001，用來近似計算導數的小變量
+    grad = np.zeros_like(x)  # 初始化梯度矩陣，與 x 形狀相同
+
+    # 使用 np.nditer 遍歷 x 的每個元素
+    it = np.nditer(x, flags=['multi_index'], op_flags=['readwrite'])
+    while not it.finished:
+        idx = it.multi_index  # 獲取當前元素的索引
+        tmp_val = x[idx]  # 暫存當前索引的值
+        
+        # 計算 f(x + h)
+        x[idx] = float(tmp_val) + h
+        fxh1 = f(x)  # 當前索引增加 h 後的函數值
+        
+        # 計算 f(x - h)
+        x[idx] = tmp_val - h
+        fxh2 = f(x)  # 當前索引減少 h 後的函數值
+        
+        # 使用中心差分公式計算數值梯度
+        grad[idx] = (fxh1 - fxh2) / (2 * h)
+        
+        # 還原 x 中當前索引的原始值
+        x[idx] = tmp_val
+        it.iternext()  # 移動到下一個索引
+    
+    return grad  # 返回計算出的梯度

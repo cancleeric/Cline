@@ -1,7 +1,7 @@
 import numpy as np
 import pickle
 from mnist_loader import load_mnist
-from logic_functions import sigmoid_function as sigmoid, softmax_function as softmax, sigmoid_derivative
+from logic_functions import sigmoid as sigmoid, softmax_function as softmax, sigmoid_derivative
 
 def get_data():
     (train_images, train_labels), (test_images, test_labels) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
