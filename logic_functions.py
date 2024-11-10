@@ -8,6 +8,10 @@ def sigmoid_function(x):
     # Sigmoid 函數：將輸入壓縮到 (0, 1) 範圍內
     return 1 / (1 + np.exp(-x))
 
+def sigmoid_derivative(x):
+    # Sigmoid 函數的導數
+    return sigmoid_function(x) * (1 - sigmoid_function(x))
+
 def relu_function(x):
     # ReLU 函數：輸入大於 0 時返回輸入值，否則返回 0
     return np.maximum(0, x)

@@ -4,6 +4,7 @@ import unittest
 from . import test_mnist
 import test_install
 import test_gates
+import test_simple_net
 
 if __name__ == "__main__":
     # 創建測試套件
@@ -14,6 +15,7 @@ if __name__ == "__main__":
     suite.addTests(loader.loadTestsFromModule(test_mnist))
     suite.addTests(loader.loadTestsFromModule(test_install))
     suite.addTests(loader.loadTestsFromModule(test_gates))
+    suite.addTests(loader.loadTestsFromModule(test_simple_net))
 
     # 運行測試
     runner = unittest.TextTestRunner()
