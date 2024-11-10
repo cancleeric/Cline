@@ -115,6 +115,7 @@ def gradient_descent(f, init_x, learning_rate=0.1, num_iterations=100):
     return x, x_history
 
 
+
 def numerical_gradient(f, x):
     """
     計算函數 f 在點 x 的數值梯度。

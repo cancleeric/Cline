@@ -6,7 +6,7 @@ import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
 
-from two_layer_neural_network import TwoLayerNet
+from two_layer_net import TwoLayerNet
 
 class TestTwoLayerNet(unittest.TestCase):
     """
