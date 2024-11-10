@@ -4,7 +4,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
 
 import numpy as np
-from logic_functions import sigmoid, sigmoid_derivative, numerical_gradient
+from logic_functions import sigmoid, sigmoid_derivative, numerical_gradient, relu_function, cross_entropy_error
 
 class TwoLayerNet:
     """
@@ -34,7 +34,7 @@ class TwoLayerNet:
         W2, b2 = self.params['W2'], self.params['b2']
         
         a1 = np.dot(x, W1) + b1
-        z1 = sigmoid(a1)
+        z1 = relu_function(a1)
         a2 = np.dot(z1, W2) + b2
         y = sigmoid(a2)
         return y
@@ -47,7 +47,8 @@ class TwoLayerNet:
         :return: 損失值
         """
         y = self.predict(x)
-        return 0.5 * np.sum((y - t) ** 2)
+        return cross_entropy_error(t, y)  # 改用交叉熵損失函數
+
 
     def numerical_gradient(self, x, t):
         """

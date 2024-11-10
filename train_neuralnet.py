@@ -14,8 +14,8 @@ x_test = x_test.reshape(x_test.shape[0], -1)
 # 超參數設定
 iters_num = 10000  # 訓練迭代次數
 train_size = x_train.shape[0]
-batch_size = 100  # 小批次大小
-learning_rate = 0.1  # 學習率
+batch_size = 200  # 小批次大小
+learning_rate = 0.0005  # 學習率
 
 # 記錄訓練過程中的損失值
 train_loss_list = []
