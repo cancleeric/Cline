@@ -9,7 +9,7 @@ sys.path.append(parent_dir)
 import unittest
 import numpy as np
 from simple_net import SimpleNet
-from logic_functions import numerical_derivative
+from common.functions import numerical_derivative
 
 class TestSimpleNet(unittest.TestCase):
     def setUp(self):

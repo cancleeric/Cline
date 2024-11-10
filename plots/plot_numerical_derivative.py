@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from logic_functions import numerical_derivative
+from common.functions import numerical_derivative
 
 def plot_numerical_derivative():
     f = lambda x: x**2

@@ -1,6 +1,6 @@
 import numpy as np
 
-from logic_functions import step_function
+from common.functions import step_function
 
 class ANDGate:
     def __init__(self, weights=None, bias=None):

@@ -1,6 +1,6 @@
 
 import numpy as np
-from logic_functions import softmax_function, cross_entropy_error
+from common.functions import softmax_function, cross_entropy_error
 
 class SimpleNet:
     def __init__(self):

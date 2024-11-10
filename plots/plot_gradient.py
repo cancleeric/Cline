@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 sys.path.append('..')
-from logic_functions import gradient_function
+from common.functions import gradient_function
 
 # 定義一個二次函數
 def function_2(x):
