@@ -10,17 +10,18 @@ class TwoLayerNet:
     """
     兩層神經網路類別
     """
-    def __init__(self, input_size, hidden_size, output_size):
+    def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01):
         """
         初始化網路參數
         :param input_size: 輸入層大小
         :param hidden_size: 隱藏層大小
         :param output_size: 輸出層大小
+        :param weight_init_std: 權重初始化的標準差 (預設為 0.01)
         """
         self.params = {}
-        self.params['W1'] = np.random.randn(input_size, hidden_size) * 0.01
+        self.params['W1'] = weight_init_std * np.random.randn(input_size, hidden_size)
         self.params['b1'] = np.zeros(hidden_size)
-        self.params['W2'] = np.random.randn(hidden_size, output_size) * 0.01
+        self.params['W2'] = weight_init_std * np.random.randn(hidden_size, output_size)
         self.params['b2'] = np.zeros(output_size)
 
     def predict(self, x):
