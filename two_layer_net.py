@@ -79,7 +79,7 @@ class TwoLayerNet:
         
         # Forward propagation
         a1 = np.dot(x, W1) + b1
-        z1 = sigmoid(a1)
+        z1 = relu_function(a1)
         a2 = np.dot(z1, W2) + b2
         y = sigmoid(a2)
         
