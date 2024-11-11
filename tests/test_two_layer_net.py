@@ -7,6 +7,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
 
 from two_layer_net import TwoLayerNet
+from dataset.mnist import load_mnist
 
 class TestTwoLayerNet(unittest.TestCase):
     """
@@ -16,16 +17,20 @@ class TestTwoLayerNet(unittest.TestCase):
         """
         初始化測試資料
         """
+        # 初始化一個神經網路
+        #load_mnist 這個函數是從 dataset/mnist.py 載入的
+        (train_images, train_labels), (test_images, test_labels) = load_mnist(normalize=True, flatten=True, one_hot=True)
+
         self.net = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
-        self.x = np.random.randn(100, 784)
-        self.t = np.random.randn(100, 10)
+        self.x = train_images[:3]
+        self.t = train_labels[:3]
 
     def test_predict(self):
         """
         測試預測函式
         """
         y = self.net.predict(self.x)
-        self.assertEqual(y.shape, (100, 10))
+        self.assertEqual(y.shape, (3, 10))
 
     def test_loss(self):
         """
@@ -56,5 +61,35 @@ class TestTwoLayerNet(unittest.TestCase):
         self.assertIn('W2', grads)
         self.assertIn('b2', grads)
 
+    # def test_check_gradient(self):
+    #     """
+    #     確認數值梯度和解析梯度之間的差異
+    #     :param x: 輸入資料
+    #     :param t: 真實標籤
+    #     :return: 梯度差異
+    #     """
+    #     grad_numerical = self.net.numerical_gradient(self.x, self.t)
+    #     grad_backprop = self.net.gradient(self.x, self.t)
+        
+    #     for key in grad_numerical.keys():
+    #         diff = np.average(np.abs(grad_backprop[key] - grad_numerical[key]))
+    #         print(f'{key}: {diff}')
+    #         self.assertTrue(diff < 1e-3, f'Gradient check failed for {key}, diff: {diff}')
+
+
+def test_check_gradient(self):
+    """
+    確認數值梯度和解析梯度之間的差異
+    """
+    grad_numerical = self.net.numerical_gradient(self.x, self.t)
+    grad_backprop = self.net.gradient(self.x, self.t)
+    
+    for key in grad_numerical.keys():
+        numerator = np.linalg.norm(grad_backprop[key] - grad_numerical[key])
+        denominator = np.linalg.norm(grad_backprop[key]) + np.linalg.norm(grad_numerical[key])
+        relative_error = numerator / denominator
+        print(f'{key}: {relative_error}')
+        self.assertTrue(relative_error < 1e-5, f'Gradient check failed for {key}, relative error: {relative_error}')
+        
 if __name__ == '__main__':
     unittest.main()

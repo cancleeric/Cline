@@ -5,6 +5,7 @@ sys.path.append(project_root)
 
 import numpy as np
 from common.functions import sigmoid, sigmoid_derivative, numerical_gradient, relu_function, cross_entropy_error
+from common.layers import Affine, Relu, SoftmaxWithLoss  # 導入所需的層
 
 class TwoLayerNet:
     """
@@ -24,20 +25,22 @@ class TwoLayerNet:
         self.params['W2'] = weight_init_std * np.random.randn(hidden_size, output_size)
         self.params['b2'] = np.zeros(output_size)
 
+        # 設定網路層
+        self.layers = {}
+        self.layers['Affine1'] = Affine(self.params['W1'], self.params['b1'])
+        self.layers['Relu1'] = Relu()
+        self.layers['Affine2'] = Affine(self.params['W2'], self.params['b2'])
+        self.lastLayer = SoftmaxWithLoss()
+
     def predict(self, x):
         """
         預測函式
         :param x: 輸入資料
         :return: 預測結果
         """
-        W1, b1 = self.params['W1'], self.params['b1']
-        W2, b2 = self.params['W2'], self.params['b2']
-        
-        a1 = np.dot(x, W1) + b1
-        z1 = relu_function(a1)
-        a2 = np.dot(z1, W2) + b2
-        y = sigmoid(a2)
-        return y
+        for layer in self.layers.values():
+            x = layer.forward(x)
+        return x
 
     def loss(self, x, t):
         """
@@ -47,8 +50,35 @@ class TwoLayerNet:
         :return: 損失值
         """
         y = self.predict(x)
-        return cross_entropy_error(t, y)  # 改用交叉熵損失函數
+        return self.lastLayer.forward(y, t)
 
+    def gradient(self, x, t):
+        """
+        計算梯度
+        :param x: 輸入資料
+        :param t: 真實標籤
+        :return: 梯度字典
+        """
+        # 前向傳播
+        self.loss(x, t)
+
+        # 反向傳播
+        dout = 1
+        dout = self.lastLayer.backward(dout)
+
+        layers = list(self.layers.values())
+        layers.reverse()
+        for layer in layers:
+            dout = layer.backward(dout)
+
+        # 計算梯度
+        grads = {}
+        grads['W1'] = self.layers['Affine1'].dW
+        grads['b1'] = self.layers['Affine1'].db
+        grads['W2'] = self.layers['Affine2'].dW
+        grads['b2'] = self.layers['Affine2'].db
+
+        return grads
 
     def numerical_gradient(self, x, t):
         """
@@ -67,30 +97,3 @@ class TwoLayerNet:
         
         return grads
 
-    def gradient(self, x, t):
-        """
-        計算梯度
-        :param x: 輸入資料
-        :param t: 真實標籤
-        :return: 梯度字典
-        """
-        W1, b1 = self.params['W1'], self.params['b1']
-        W2, b2 = self.params['W2'], self.params['b2']
-        
-        # Forward propagation
-        a1 = np.dot(x, W1) + b1
-        z1 = relu_function(a1)
-        a2 = np.dot(z1, W2) + b2
-        y = sigmoid(a2)
-        
-        # Backpropagation
-        dy = (y - t) * sigmoid_derivative(a2)
-        grads = {}
-        grads['W2'] = np.dot(z1.T, dy)
-        grads['b2'] = np.sum(dy, axis=0)
-        
-        da1 = np.dot(dy, W2.T) * sigmoid_derivative(a1)
-        grads['W1'] = np.dot(x.T, da1)
-        grads['b1'] = np.sum(da1, axis=0)
-        
-        return grads

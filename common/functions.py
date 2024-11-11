@@ -24,7 +24,7 @@ def identity_function(x):
     # 恒等函數：返回輸入值本身
     return x
 
-def softmax_function(x):
+def softmax(x):
     # Softmax 函數：將輸入轉換為概率分佈
     exp_x = np.exp(x - np.max(x))  # 減去最大值以避免溢出
     return exp_x / np.sum(exp_x)

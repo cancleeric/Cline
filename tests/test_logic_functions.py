@@ -10,7 +10,7 @@ parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 sys.path.append(parent_dir)
 from common.functions import (
     step_function, sigmoid, relu_function, weighted_sum,
-    identity_function, softmax_function, mean_squared_error, cross_entropy_error,
+    identity_function, softmax, mean_squared_error, cross_entropy_error,
     numerical_derivative, gradient_function, gradient_descent, sigmoid_derivative
 )
 

@@ -1,6 +1,6 @@
 
 import numpy as np
-from common.functions import softmax_function, cross_entropy_error
+from common.functions import softmax, cross_entropy_error
 
 class SimpleNet:
     def __init__(self):
@@ -14,6 +14,6 @@ class SimpleNet:
     def loss(self, x, t):
         # 計算損失函數值
         z = self.predict(x)
-        y = softmax_function(z)
+        y = softmax(z)
         loss = cross_entropy_error(t, y)
         return loss

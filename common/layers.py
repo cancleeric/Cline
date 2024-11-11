@@ -17,9 +17,8 @@ class Relu:
         return out
 
     def backward(self, dout):
-        dout[self.mask] = 0
-        dx = dout
-
+        dx = dout.copy()
+        dx[self.mask] = 0
         return dx
     
 class Sigmoid:
@@ -69,4 +68,6 @@ class SoftmaxWithLoss:
     def backward(self, dout=1):
         batch_size = self.t.shape[0]
         dx = (self.y - self.t) / batch_size
+        # 增加數值穩定項
+        # dx += 1e-7
         return dx
