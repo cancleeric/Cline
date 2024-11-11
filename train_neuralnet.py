@@ -2,6 +2,7 @@ import numpy as np
 from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 import matplotlib.pyplot as plt
+from common.update import SGD  # 更新這行
 
 # 載入 MNIST 數據集
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot=True)
@@ -30,6 +31,7 @@ test_accuracy_list = []
 
 # 初始化兩層神經網絡
 network = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)
+optimizer = SGD(learning_rate=0.0005)
 
 # 訓練過程
 for i in range(iters_num):
@@ -42,8 +44,7 @@ for i in range(iters_num):
     grad = network.gradient(x_batch, t_batch)
     
     # 更新參數
-    for key in ('W1', 'b1', 'W2', 'b2'):
-        network.params[key] -= learning_rate * grad[key]
+    optimizer.update(network.params, grad)
     
     # 記錄學習過程中的損失
     loss = network.loss(x_batch, t_batch)

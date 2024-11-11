@@ -6,6 +6,7 @@ sys.path.append(project_root)
 import numpy as np
 from common.functions import sigmoid, sigmoid_derivative, numerical_gradient, relu_function, cross_entropy_error
 from common.layers import Affine, Relu, SoftmaxWithLoss  # 導入所需的層
+from common.update import SGD  # 更新這行
 
 class TwoLayerNet:
     """
