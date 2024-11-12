@@ -14,6 +14,8 @@ def compare_optimizers(optimizers, epochs=5, batch_size=32, path='./dataset'):
     (train_images, train_labels), (test_images, test_labels) = load_mnist(normalize=True, flatten=True, one_hot=True, path=path)
     
     results = {}
+    loss_history = {key: [] for key in optimizers.keys()}  # 新增一個字典來儲存每個優化器的損失歷史
+    
     for optimizer_name, optimizer in optimizers.items():
         print(f"Training with {optimizer_name} optimizer")
         # 建立簡單的神經網路模型
@@ -32,15 +34,30 @@ def compare_optimizers(optimizers, epochs=5, batch_size=32, path='./dataset'):
         # 評估模型在測試集上的表現
         loss, accuracy = model.evaluate(test_images, test_labels)
         results[optimizer_name] = history.history['val_accuracy']
+        loss_history[optimizer_name] = history.history['loss']  # 儲存損失值
         print(f"{optimizer_name} optimizer - Test accuracy: {accuracy}")
 
-    # 繪製結果
+    #繪製結果
     for optimizer_name, val_accuracy in results.items():
         plt.plot(val_accuracy, label=optimizer_name)
     
     plt.title('Optimizer Comparison on MNIST')
     plt.xlabel('Epoch')
     plt.ylabel('Validation Accuracy')
+    plt.legend()
+    plt.show()
+
+    # 等待查看第一張圖表
+    # input("Press Enter to show the next figure...")
+
+
+
+    plt.figure()  # 新增一個圖表來繪製損失歷史
+    for optimizer_name, loss in loss_history.items():
+        plt.plot(loss, label=optimizer_name)
+    plt.title('Iterations vs Loss')
+    plt.xlabel('Iterations')
+    plt.ylabel('Loss')
     plt.legend()
     plt.show()
 

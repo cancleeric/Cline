@@ -34,6 +34,8 @@ optimizers = {
     'Adam': Adam(learning_rate=0.3)
 }
 
+idx = 1  # 初始化 idx
+
 for key in optimizers:
     optimizer = optimizers[key]
     x_history = []
