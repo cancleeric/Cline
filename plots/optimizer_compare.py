@@ -34,7 +34,6 @@ optimizers = {
     'Adam': Adam(learning_rate=0.3)
 }
 
-idx = 1
 for key in optimizers:
     optimizer = optimizers[key]
     x_history = []

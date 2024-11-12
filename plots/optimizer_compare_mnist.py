@@ -18,7 +18,11 @@ def compare_optimizers(optimizers, epochs=5, batch_size=32, path='./dataset'):
         print(f"Training with {optimizer_name} optimizer")
         # 建立簡單的神經網路模型
         model = tf.keras.models.Sequential([
-            tf.keras.layers.Dense(128, activation='relu', input_shape=(784,)),
+            tf.keras.layers.Dense(100, activation='relu', input_shape=(784,)),
+            tf.keras.layers.Dense(100, activation='relu'),
+            tf.keras.layers.Dense(100, activation='relu'),
+            tf.keras.layers.Dense(100, activation='relu'),
+            tf.keras.layers.Dense(100, activation='relu'),
             tf.keras.layers.Dense(10, activation='softmax')
         ])
         # 編譯模型，設定損失函數和評估指標
