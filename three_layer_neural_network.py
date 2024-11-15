@@ -1,5 +1,5 @@
 import numpy as np
-from common.functions import weighted_sum, sigmoid as sigmoid, identity_function
+from common.functions import weighted_sum, sigmoid as sigmoid, identity
 
 def init_network():
     np.random.seed(42)
@@ -26,7 +26,7 @@ def forward(network, input_data):
 
     # 第 2 層到第 3 層
     layer_3_input = weighted_sum(layer_2_output, network['weights_2'], network['bias_2'])
-    layer_3_output = identity_function(layer_3_input)
+    layer_3_output = identity(layer_3_input)
 
     return layer_1_output, layer_2_output, layer_3_output
 

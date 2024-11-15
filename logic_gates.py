@@ -1,6 +1,6 @@
 import numpy as np
 
-from common.functions import step_function
+from common.functions import step
 
 class ANDGate:
     def __init__(self, weights=None, bias=None):
@@ -16,7 +16,7 @@ class ANDGate:
     def calculate(self, input1, input2):
         inputs = np.array([input1, input2])
         weighted_sum = np.dot(inputs, self.weights) + self.bias
-        return step_function(weighted_sum)
+        return step(weighted_sum)
 
 class NANDGate:
     def __init__(self, weights=None, bias=None):
@@ -32,7 +32,7 @@ class NANDGate:
     def calculate(self, input1, input2):
         inputs = np.array([input1, input2])
         weighted_sum = np.dot(inputs, self.weights) + self.bias
-        return step_function(weighted_sum)
+        return step(weighted_sum)
 
 class ORGate:
     def __init__(self, weights=None, bias=None):
@@ -48,7 +48,7 @@ class ORGate:
     def calculate(self, input1, input2):
         inputs = np.array([input1, input2])
         weighted_sum = np.dot(inputs, self.weights) + self.bias
-        return step_function(weighted_sum)
+        return step(weighted_sum)
 
 class XORGate:
     def __init__(self):

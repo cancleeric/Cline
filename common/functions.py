@@ -1,6 +1,6 @@
 import numpy as np
 
-def step_function(x):
+def step(x):
     # 步階函數：輸入大於 0 時返回 1，否則返回 0
     return (x > 0).astype(int)
 
@@ -12,15 +12,23 @@ def sigmoid_derivative(x):
     # Sigmoid 函數的導數
     return sigmoid(x) * (1 - sigmoid(x))
 
-def relu_function(x):
+def relu(x):
     # ReLU 函數：輸入大於 0 時返回輸入值，否則返回 0
     return np.maximum(0, x)
+
+def tanh(x):
+    # Tanh 函數：雙曲正切函數
+    return np.tanh(x)
+
+def tanh_derivative(x):
+    # Tanh 函數的導數
+    return 1 - np.tanh(x) ** 2
 
 def weighted_sum(x, weights, bias):
     # 加權和函數：計算輸入與權重的點積並加上偏置
     return np.dot(x, weights) + bias
 
-def identity_function(x):
+def identity(x):
     # 恒等函數：返回輸入值本身
     return x
 

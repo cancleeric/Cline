@@ -9,16 +9,17 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 sys.path.append(parent_dir)
 from common.functions import (
-    step_function, sigmoid, relu_function, weighted_sum,
-    identity_function, softmax, mean_squared_error, cross_entropy_error,
-    numerical_derivative, gradient_function, gradient_descent, sigmoid_derivative
+    step, sigmoid, relu, weighted_sum,
+    identity, softmax, mean_squared_error, cross_entropy_error,
+    numerical_derivative, gradient_function, gradient_descent, sigmoid_derivative,
+    tanh, tanh_derivative  # 新增 tanh 和 tanh_derivative 函數的匯入
 )
 
 class TestLogicFunctions(unittest.TestCase):
     def test_step_function(self):
         x = np.array([-1.0, 1.0, 2.0])
         expected = np.array([0, 1, 1])
-        np.testing.assert_array_equal(step_function(x), expected)
+        np.testing.assert_array_equal(step(x), expected)
 
     def test_sigmoid_function(self):
         x = np.array([0.0])
@@ -28,7 +29,7 @@ class TestLogicFunctions(unittest.TestCase):
     def test_relu_function(self):
         x = np.array([-1.0, 0.0, 1.0])
         expected = np.array([0.0, 0.0, 1.0])
-        np.testing.assert_array_equal(relu_function(x), expected)
+        np.testing.assert_array_equal(relu(x), expected)
 
     def test_weighted_sum(self):
         x = np.array([1.0, 2.0])
@@ -39,7 +40,7 @@ class TestLogicFunctions(unittest.TestCase):
 
     def test_identity_function(self):
         x = np.array([1.0, 2.0, 3.0])
-        np.testing.assert_array_equal(identity_function(x), x)
+        np.testing.assert_array_equal(identity(x), x)
 
     def test_mean_squared_error(self):
         y_true = np.array([1.0, 2.0, 3.0])
@@ -84,6 +85,16 @@ class TestLogicFunctions(unittest.TestCase):
             with self.subTest(x=x):
                 result = sigmoid_derivative(x)
                 self.assertAlmostEqual(result, expected, places=7, msg=f"Failed at x={x}")
+
+    def test_tanh_function(self):
+        x = np.array([-1.0, 0.0, 1.0])
+        expected = np.tanh(x)
+        np.testing.assert_array_almost_equal(tanh(x), expected)
+
+    def test_tanh_derivative(self):
+        x = np.array([-1.0, 0.0, 1.0])
+        expected = 1 - np.tanh(x) ** 2
+        np.testing.assert_array_almost_equal(tanh_derivative(x), expected)
 
 if __name__ == "__main__":
     unittest.main()
