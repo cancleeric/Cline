@@ -28,7 +28,12 @@ class MultiLayerNet:
         # 初始化權重和偏置
         all_sizes = [input_size] + hidden_sizes + [output_size]
         for i in range(1, len(all_sizes)):
-            self.params[f'W{i}'] = weight_init_std * np.random.randn(all_sizes[i-1], all_sizes[i])
+            if activation == 'relu':
+                self.params[f'W{i}'] = np.random.randn(all_sizes[i-1], all_sizes[i]) * np.sqrt(2.0 / all_sizes[i-1])
+            elif activation == 'sigmoid':
+                self.params[f'W{i}'] = np.random.randn(all_sizes[i-1], all_sizes[i]) * np.sqrt(1.0 / all_sizes[i-1])
+            else:
+                self.params[f'W{i}'] = weight_init_std * np.random.randn(all_sizes[i-1], all_sizes[i])
             self.params[f'b{i}'] = np.zeros(all_sizes[i])
 
         # 設定網路層
