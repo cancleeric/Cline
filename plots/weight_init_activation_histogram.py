@@ -7,7 +7,7 @@ parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 sys.path.append(parent_dir)
 import numpy as np
 import matplotlib.pyplot as plt
-from common.functions import sigmoid, tanh  # 匯入 tanh 函數
+from common.functions import sigmoid, relu  # 匯入 relu 函數
 
 # 隱藏層的活性化分布
 input_data = np.random.randn(1000, 100)  # 1000個資料，每個資料100個特徵
@@ -21,34 +21,39 @@ initialization_methods = {
     "He": lambda: np.random.randn(node_num, node_num) * np.sqrt(2.0 / node_num)
 }
 
+activation_functions = {
+    "sigmoid": sigmoid,
+    "relu": relu
+}
+
 plt.figure(figsize=(15, 10))  # 調整整體圖形大小
 
-for idx, (method_name, weight_init) in enumerate(initialization_methods.items()):
-    activations = {}  # 儲存活性化結果
-    x = input_data
+for act_idx, (act_name, activation_function) in enumerate(activation_functions.items()):
+    for idx, (method_name, weight_init) in enumerate(initialization_methods.items()):
+        activations = {}  # 儲存活性化結果
+        x = input_data
 
-    for i in range(hidden_layer_size):
-        if i != 0:
-            x = activations[i-1]
+        for i in range(hidden_layer_size):
+            if i != 0:
+                x = activations[i-1]
 
-        # 權重初始化
-        w = weight_init()
+            # 權重初始化
+            w = weight_init()
 
-        a = np.dot(x, w)
+            a = np.dot(x, w)
 
-        # 活性化函數
-        z = sigmoid(a)  # 使用 common.functions 中的 sigmoid 函數
-        # z = tanh(a)  # 使用 common.functions 中的 tanh 函數
+            # 活性化函數
+            z = activation_function(a)
 
-        activations[i] = z
+            activations[i] = z
 
-    # 繪製活性化分布圖
-    for i, a in activations.items():
-        plt.subplot(len(initialization_methods), hidden_layer_size, idx * hidden_layer_size + i + 1)
-        if i == 0:
-            plt.ylabel(method_name, rotation=0, labelpad=40)
-        plt.title(f"Layer {i+1}")
-        plt.hist(a.flatten(), 30, range=(0,1))
+        # 繪製活性化分布圖
+        for i, a in activations.items():
+            plt.subplot(len(activation_functions) * len(initialization_methods), hidden_layer_size, act_idx * len(initialization_methods) * hidden_layer_size + idx * hidden_layer_size + i + 1)
+            if i == 0:
+                plt.ylabel(f"{act_name} - {method_name}", rotation=0, labelpad=40)
+            plt.title(f"Layer {i+1}")
+            plt.hist(a.flatten(), 30, range=(0,1))
 
 plt.tight_layout()
 plt.show()
