@@ -53,6 +53,8 @@ for act_idx, (act_name, activation_function) in enumerate(activation_functions.i
             if i == 0:
                 plt.ylabel(f"{act_name} - {method_name}", rotation=0, labelpad=40)
             plt.title(f"Layer {i+1}")
+            plt.xlim(0.1, 1)
+            plt.ylim(0, 7000)
             plt.hist(a.flatten(), 30, range=(0,1))
 
 plt.tight_layout()
