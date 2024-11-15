@@ -1,5 +1,14 @@
 import unittest
 import numpy as np
+import sys
+import os
+
+# 獲取當前腳本的絕對路徑，並將上一層資料夾添加到 sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+sys.path.append(parent_dir)
+
+
 from logic_gates import XORGate, ANDGate, NANDGate, ORGate
 
 class TestLogicGates(unittest.TestCase):

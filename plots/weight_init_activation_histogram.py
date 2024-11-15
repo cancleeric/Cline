@@ -1,5 +1,13 @@
+import sys
+import os
+
+# 獲取當前腳本的絕對路徑，並將上一層資料夾添加到 sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+sys.path.append(parent_dir)
 import numpy as np
 import matplotlib.pyplot as plt
+from common.functions import sigmoid, tanh  # 匯入 tanh 函數
 
 # 隱藏層的活性化分布
 input_data = np.random.randn(1000, 100)  # 1000個資料，每個資料100個特徵
@@ -21,7 +29,8 @@ for i in range(hidden_layer_size):
     a = np.dot(x, w)
 
     # 活性化函數
-    z = 1 / (1 + np.exp(-a))  # Sigmoid函數
+    z = sigmoid(a)  # 使用 common.functions 中的 tanh 函數
+    # z = tanh(a)  # 使用 common.functions 中的 tanh 函數
 
     activations[i] = z
 
