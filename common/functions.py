@@ -30,8 +30,15 @@ def identity(x):
     return x
 
 def softmax(x):
-    # Softmax 函數：將輸入轉換為概率分佈
-    exp_x = np.exp(x - np.max(x))  # 減去最大值以避免溢出
+    """
+    Softmax 函數：將輸入轉換為概率分佈
+    """
+    if x.ndim == 2:
+        x = x - np.max(x, axis=1, keepdims=True)
+        exp_x = np.exp(x)
+        return exp_x / np.sum(exp_x, axis=1, keepdims=True)
+    x = x - np.max(x)  # 減去最大值以避免溢出
+    exp_x = np.exp(x)
     return exp_x / np.sum(exp_x)
 
 # 損失函數

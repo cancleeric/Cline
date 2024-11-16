@@ -12,7 +12,7 @@ class MultiLayerNet:
     """
     多層神經網路類別
     """
-    def __init__(self, input_size, hidden_sizes, output_size, activation='relu', weight_init_std=0.01):
+    def __init__(self, input_size, hidden_sizes, output_size, activation='relu', weight_init_std=0.01, weight_decay_lambda=0):
         """
         初始化網路參數
         :param input_size: 輸入層大小
@@ -20,11 +20,13 @@ class MultiLayerNet:
         :param output_size: 輸出層大小
         :param activation: 活性化函數類型 ('relu' 或 'sigmoid')
         :param weight_init_std: 權重初始化的標準差 (預設為 0.01)
+        :param weight_decay_lambda: 權重衰減係數 (預設為 0)
         """
         self.params = {}
         self.layers = {}
         self.hidden_sizes = hidden_sizes
         self.activation = activation
+        self.weight_decay_lambda = weight_decay_lambda
 
         # 初始化權重和偏置
         all_sizes = [input_size] + hidden_sizes + [output_size]
@@ -65,7 +67,11 @@ class MultiLayerNet:
         :return: 損失值
         """
         y = self.predict(x)
-        return self.lastLayer.forward(y, t)
+        weight_decay = 0
+        for i in range(1, len(self.hidden_sizes) + 2):
+            W = self.params[f'W{i}']
+            weight_decay += 0.5 * self.weight_decay_lambda * np.sum(W ** 2)
+        return self.lastLayer.forward(y, t) + weight_decay
 
     def gradient(self, x, t):
         """
@@ -101,6 +107,7 @@ class MultiLayerNet:
         :param t: 真實標籤
         :return: 梯度字典
         """
+        print(f"Softmax input range: min={np.min(x)}, max={np.max(x)}")
         loss_W = lambda W: self.loss(x, t)
         
         grads = {}
@@ -109,4 +116,4 @@ class MultiLayerNet:
             grads[f'b{i}'] = numerical_gradient(loss_W, self.params[f'b{i}'])
         
         return grads
-    
+

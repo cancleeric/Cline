@@ -102,7 +102,7 @@ def _change_one_hot_label(X):
 
     return T
 
-def load_mnist(normalize=True, flatten=False, one_hot=False, path='./dataset'):
+def load_mnist(normalize=True, flatten=True, one_hot=False, path='./dataset'):
     # 檢查是否已經存在資料，若不存在則下載
     data = load_saved_mnist(path)
     if data is None:
