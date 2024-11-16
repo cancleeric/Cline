@@ -11,9 +11,9 @@ class TestMultiLayerNet(unittest.TestCase):
     def setUp(self):
         # 初始化網路參數
         self.input_size = 784
-        self.hidden_sizes = [50, 50, 50]
+        self.hidden_size_list = [100, 100, 100]
         self.output_size = 10
-        self.network = MultiLayerNet(self.input_size, self.hidden_sizes, self.output_size)
+        self.network = MultiLayerNet(self.input_size, self.hidden_size_list, self.output_size)
 
     def test_predict(self):
         # 測試預測函式
@@ -33,13 +33,13 @@ class TestMultiLayerNet(unittest.TestCase):
         x = np.random.rand(2, self.input_size)
         t = np.random.rand(2, self.output_size)
         grads = self.network.gradient(x, t)
-        self.assertEqual(grads['W1'].shape, (self.input_size, self.hidden_sizes[0]))
-        self.assertEqual(grads['b1'].shape, (self.hidden_sizes[0],))
-        self.assertEqual(grads['W2'].shape, (self.hidden_sizes[0], self.hidden_sizes[1]))
-        self.assertEqual(grads['b2'].shape, (self.hidden_sizes[1],))
-        self.assertEqual(grads['W3'].shape, (self.hidden_sizes[1], self.hidden_sizes[2]))
-        self.assertEqual(grads['b3'].shape, (self.hidden_sizes[2],))
-        self.assertEqual(grads['W4'].shape, (self.hidden_sizes[2], self.output_size))
+        self.assertEqual(grads['W1'].shape, (self.input_size, self.hidden_size_list[0]))
+        self.assertEqual(grads['b1'].shape, (self.hidden_size_list[0],))
+        self.assertEqual(grads['W2'].shape, (self.hidden_size_list[0], self.hidden_size_list[1]))
+        self.assertEqual(grads['b2'].shape, (self.hidden_size_list[1],))
+        self.assertEqual(grads['W3'].shape, (self.hidden_size_list[1], self.hidden_size_list[2]))
+        self.assertEqual(grads['b3'].shape, (self.hidden_size_list[2],))
+        self.assertEqual(grads['W4'].shape, (self.hidden_size_list[2], self.output_size))
         self.assertEqual(grads['b4'].shape, (self.output_size,))
 
     def test_numerical_gradient(self):
@@ -47,13 +47,13 @@ class TestMultiLayerNet(unittest.TestCase):
         x = np.random.rand(2, self.input_size)
         t = np.random.rand(2, self.output_size)
         grads = self.network.numerical_gradient(x, t)
-        self.assertEqual(grads['W1'].shape, (self.input_size, self.hidden_sizes[0]))
-        self.assertEqual(grads['b1'].shape, (self.hidden_sizes[0],))
-        self.assertEqual(grads['W2'].shape, (self.hidden_sizes[0], self.hidden_sizes[1]))
-        self.assertEqual(grads['b2'].shape, (self.hidden_sizes[1],))
-        self.assertEqual(grads['W3'].shape, (self.hidden_sizes[1], self.hidden_sizes[2]))
-        self.assertEqual(grads['b3'].shape, (self.hidden_sizes[2],))
-        self.assertEqual(grads['W4'].shape, (self.hidden_sizes[2], self.output_size))
+        self.assertEqual(grads['W1'].shape, (self.input_size, self.hidden_size_list[0]))
+        self.assertEqual(grads['b1'].shape, (self.hidden_size_list[0],))
+        self.assertEqual(grads['W2'].shape, (self.hidden_size_list[0], self.hidden_size_list[1]))
+        self.assertEqual(grads['b2'].shape, (self.hidden_size_list[1],))
+        self.assertEqual(grads['W3'].shape, (self.hidden_size_list[1], self.hidden_size_list[2]))
+        self.assertEqual(grads['b3'].shape, (self.hidden_size_list[2],))
+        self.assertEqual(grads['W4'].shape, (self.hidden_size_list[2], self.output_size))
         self.assertEqual(grads['b4'].shape, (self.output_size,))
 
 if __name__ == '__main__':

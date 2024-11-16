@@ -85,7 +85,7 @@ def cross_entropy_error(y_true, y_pred):
     返回:
     cee -- 交叉熵誤差
     """
-    epsilon = 1e-12
+    epsilon = 1e-7
     y_pred = np.clip(y_pred, epsilon, 1. - epsilon)
 
     if y_true.ndim == 1:  # 當 y_true 是 one-hot 的索引編碼形式
