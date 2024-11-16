@@ -137,7 +137,9 @@ training/
 *.npy
 
 # Dataset files
-dataset/
+dataset/*.npy
+dataset/*.gz
+
 
 # 忽略測試產生的資料
 /test_dataset/
